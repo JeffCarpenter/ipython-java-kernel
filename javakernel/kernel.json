@@ -2,5 +2,8 @@
  "argv": ["python3", "<PATH_TO_javakernel>",
           "-f", "{connection_file}"],
  "display_name": "Java 9",
- "language": "java"
+ "language": "java",
+ "env": {
+	 "JAVA_9_HOME": "/usr/lib/jvm/java-9-openjdk-amd64/"
+  }
 }

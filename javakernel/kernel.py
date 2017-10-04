@@ -18,19 +18,18 @@ class JavaKernel(Kernel):
     implementation = 'java_kernel'
     implementation_version = 0.1
     langauge = "java"
-    language_version = "1.9.0-ea"
+    language_version = "1.9"
     language_info = {'name': 'java',
                      'mimetype': 'application/java-vm',
                      'file_extension': '.class'}
 
-    _JAVA_COMMAND = '{}/bin/java'.format(os.environ['JAVA_9_HOME'])
-    _KULLA_LOCATION = os.environ['KULLA_HOME']
+    _JAVA_COMMAND = '{}/bin/jshell'.format(os.environ['JAVA_9_HOME'])
 
     def __init__(self, **kwargs):
         super(JavaKernel, self).__init__(**kwargs)
         self._banner = None
         self.env = {"JAVA_9_HOME": os.environ['JAVA_9_HOME'],
-                    "KULLA_HOME": os.environ['KULLA_HOME']}
+                }
         self._start_java_repl()
 
     @property
@@ -43,13 +42,10 @@ class JavaKernel(Kernel):
         sig = signal.signal(signal.SIGINT, signal.SIG_DFL)
         try:
             self.javawrapper = replwrap.REPLWrapper(
-                "{} -jar {}".format(
-                    self._JAVA_COMMAND,
-                    self._KULLA_LOCATION
-                ),
-                u'jshell> ',
+                self._JAVA_COMMAND,
+                u'\n-> ',
                 None,
-                continuation_prompt=u'   ...> '
+                continuation_prompt=u'\n>> '
             )
         finally:
             signal.signal(signal.SIGINT, sig)
