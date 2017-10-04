@@ -1,13 +1,12 @@
 # 
 
-# java9_kernel
-An ipython kernel for java 9. Last tested Kulla.jar was kulla--20160821005845.jar
+# java9_kernel (forked for working with OpenJDK)
+An ipython kernel for java 9 openjdk.
 
 ## Expectation Setting
 This is an experimental ipython kernel written with an experimental repl written for
 a unreleased java version. Don't expect this to be production ready.
 
-That being said. File issues and I'll do my best.
 
 ## Requirements
 
