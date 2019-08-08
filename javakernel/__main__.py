@@ -1,4 +1,4 @@
-from kernel import JavaKernel
+from .kernel import JavaKernel
 
 
 if __name__ == '__main__':
