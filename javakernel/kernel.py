@@ -15,27 +15,27 @@ from pexpect import replwrap, EOF
 
 
 class JavaKernel(Kernel):
-    implementation = 'java_kernel'
+    implementation = "java_kernel"
     implementation_version = 0.1
     langauge = "java"
     language_version = "1.9"
-    language_info = {'name': 'java',
-                     'mimetype': 'application/java-vm',
-                     'file_extension': '.class'}
+    language_info = {"name": "java",
+                     "mimetype": "application/java-vm",
+                     "file_extension": ".class"}
 
-    _JAVA_COMMAND = '{}/bin/jshell'.format(os.environ['JAVA_HOME'])
+    _JAVA_COMMAND = "{}/bin/jshell".format(os.environ["JAVA_HOME"])
 
     def __init__(self, **kwargs):
         super(JavaKernel, self).__init__(**kwargs)
         self._banner = None
-        self.env = {"JAVA_HOME": os.environ['JAVA_HOME'],
+        self.env = {"JAVA_HOME": os.environ["JAVA_HOME"],
                 }
         self._start_java_repl()
 
     @property
     def banner(self):
         if self._banner is None:
-            self._banner = check_output([self._JAVA_COMMAND, '-version']).decode('utf-8')
+            self._banner = check_output([self._JAVA_COMMAND, "-version"]).decode("utf-8")
         return self._banner
 
     def _start_java_repl(self):
@@ -43,9 +43,9 @@ class JavaKernel(Kernel):
         try:
             self.javawrapper = replwrap.REPLWrapper(
                 self._JAVA_COMMAND,
-                u'\n-> ',
+                u"\n-> ",
                 None,
-                continuation_prompt=u'\n>> '
+                continuation_prompt=u"\n>> "
             )
         finally:
             signal.signal(signal.SIGINT, sig)
@@ -88,7 +88,7 @@ class JavaKernel(Kernel):
             self.javawrapper._expect_prompt()
             output = self.javawrapper.child.before
         except EOF:
-            output = self.javawrapper.child.before + 'Restarting java'
+            output = self.javawrapper.child.before + "Restarting java"
             self._start_java_repl()
         return interrupted, output
 
@@ -143,26 +143,26 @@ class JavaKernel(Kernel):
         Non-metakernel code handler. Need to construct all messages.
         """
         if not code.strip():
-            return {'status': 'ok', 'execution_count': self.execution_count,
-                    'payload': [], 'user_expressions': {}}
+            return {"status": "ok", "execution_count": self.execution_count,
+                    "payload": [], "user_expressions": {}}
 
         interrupted, output = self._execute_java(code)
 
         if not silent:
-            stream_content = {'name': 'stdout', 'text': output}
-            self.send_response(self.iopub_socket, 'stream', stream_content)
+            stream_content = {"name": "stdout", "text": output}
+            self.send_response(self.iopub_socket, "stream", stream_content)
 
         if interrupted:
-            return {'status': 'abort', 'execution_count': self.execution_count}
+            return {"status": "abort", "execution_count": self.execution_count}
 
         exitcode = "|  Error:" in output
 
         if exitcode:
-            return {'status': 'error', 'execution_count': self.execution_count,
-                    'ename': '', 'evalue': output, 'traceback': []}
+            return {"status": "error", "execution_count": self.execution_count,
+                    "ename": "", "evalue": output, "traceback": []}
         else:
-            return {'status': 'ok', 'execution_count': self.execution_count,
-                    'payload': [], 'user_expressions': {}}
+            return {"status": "ok", "execution_count": self.execution_count,
+                    "payload": [], "user_expressions": {}}
 
 
     def get_completions(self, info):
