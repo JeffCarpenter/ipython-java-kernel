@@ -14,31 +14,11 @@ This kernel expects two environment variables defined, which can be set in the k
 
 ## Installing the kernel
 
-Assuming you have cloned the repo and got all the requirements above setup
+Assuming you have cloned the repo and got all the requirements above setup:
 
-edit kernel.json replacing PATH_TO_javakernel to the location of the javakernel directory
- 
-```
-mkdir ~/.ipython/kernels/java/
+```python3 -m javakernel install --user```
 
-cp <location of your edited kernel.json> ~/.ipython/kernels/java/
-```
-
-For example a kernel.json might look like this:
-
-```
-{
- "argv": ["python3", "<javakernel_path>",
-          "-f", "{connection_file}"],
- "display_name": "Java",
- "language": "java",
- "env" : {
-     "JAVA_HOME": "<java_path>",
-     }
- }       
-```
-
-If all worked you should be able to run the kernel:
+If it worked you should be able to run the kernel:
 ```
 [1] String a = "test"
 
