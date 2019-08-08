@@ -1,22 +1,16 @@
 # 
 
-# java9_kernel (forked for working with OpenJDK)
-An ipython kernel for java 9 openjdk.
+# IPython Java Kernel
+An IPython kernel for Java 9+.
 
 ## Expectation Setting
-This is an experimental ipython kernel written with an experimental repl written for
-a unreleased java version. Don't expect this to be production ready.
-
+This is an experimental ipython kernel. Don't expect this to be production ready.
 
 ## Requirements
 
-Install [java9-openjdk]
+Install JDK 9+
 
 This kernel expects two environment variables defined, which can be set in the kernel.json (described below):
-
-```
-JAVA_9_HOME - like JAVA_HOME but pointing to a java 9 environment
-```
 
 ## Installing the kernel
 
@@ -36,10 +30,10 @@ For example a kernel.json might look like this:
 {
  "argv": ["python3", "<javakernel_path>",
           "-f", "{connection_file}"],
- "display_name": "Java 9",
+ "display_name": "Java",
  "language": "java",
  "env" : {
-     "JAVA_9_HOME": "<java_path>",
+     "JAVA_HOME": "<java_path>",
      }
  }       
 ```

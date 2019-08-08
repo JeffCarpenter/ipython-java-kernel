@@ -23,12 +23,12 @@ class JavaKernel(Kernel):
                      'mimetype': 'application/java-vm',
                      'file_extension': '.class'}
 
-    _JAVA_COMMAND = '{}/bin/jshell'.format(os.environ['JAVA_9_HOME'])
+    _JAVA_COMMAND = '{}/bin/jshell'.format(os.environ['JAVA_HOME'])
 
     def __init__(self, **kwargs):
         super(JavaKernel, self).__init__(**kwargs)
         self._banner = None
-        self.env = {"JAVA_9_HOME": os.environ['JAVA_9_HOME'],
+        self.env = {"JAVA_HOME": os.environ['JAVA_HOME'],
                 }
         self._start_java_repl()
 
