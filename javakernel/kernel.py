@@ -1,8 +1,10 @@
 from subprocess import check_output
 import signal
+
 metakernel = False
 try:
     from metakernel import MetaKernel as Kernel
+
     metakernel = True
 except:
     try:
@@ -19,17 +21,18 @@ class JavaKernel(Kernel):
     implementation_version = 0.1
     langauge = "java"
     language_version = "1.9"
-    language_info = {"name": "java",
-                     "mimetype": "application/java-vm",
-                     "file_extension": ".class"}
+    language_info = {
+        "name": "java",
+        "mimetype": "application/java-vm",
+        "file_extension": ".class",
+    }
 
     _JAVA_COMMAND = "{}/bin/jshell".format(os.environ["JAVA_HOME"])
 
     def __init__(self, **kwargs):
         super(JavaKernel, self).__init__(**kwargs)
         self._banner = None
-        self.env = {"JAVA_HOME": os.environ["JAVA_HOME"],
-                }
+        self.env = {"JAVA_HOME": os.environ["JAVA_HOME"]}
         self._start_java_repl()
 
     @property
@@ -42,16 +45,12 @@ class JavaKernel(Kernel):
         sig = signal.signal(signal.SIGINT, signal.SIG_DFL)
         try:
             self.javawrapper = replwrap.REPLWrapper(
-                self._JAVA_COMMAND,
-                u"\n-> ",
-                None,
-                continuation_prompt=u"\n>> "
-            )
+                self._JAVA_COMMAND, u"\n-> ", None, continuation_prompt=u"\n>> ")
         finally:
             signal.signal(signal.SIGINT, sig)
 
-
-    def do_execute(self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
+    def do_execute(
+        self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
         """
         :param code:
             The code to be executed.
@@ -68,7 +67,9 @@ class JavaKernel(Kernel):
             dict https://ipython.org/ipython-doc/dev/development/messaging.html#execution-results
         """
         if metakernel:
-            return super(JavaKernel, self).do_execute(code, silent, store_history, user_expressions, allow_stdin)
+            return super(JavaKernel, self).do_execute(
+                code, silent, store_history, user_expressions, allow_stdin
+            )
         else:
             return self._do_execute(code, silent)
 
@@ -92,7 +93,6 @@ class JavaKernel(Kernel):
             self._start_java_repl()
         return interrupted, output
 
-
     def do_execute_direct(self, code, silent=False):
         """
         :param code:
@@ -112,8 +112,10 @@ class JavaKernel(Kernel):
 
         # Look for a return value:
         retval = None
-        for expr in [".*\|  Expression value is: ([^\n]*)", 
-                     ".*\|  Variable [^\n]* of type [^\n]* has value ([^\n]*)"]:
+        for expr in [
+            ".*\|  Expression value is: ([^\n]*)",
+            ".*\|  Variable [^\n]* of type [^\n]* has value ([^\n]*)",
+        ]:
             match = re.match(expr, output, re.MULTILINE | re.DOTALL)
             if match:
                 sretval = match.groups()[0]
@@ -143,8 +145,12 @@ class JavaKernel(Kernel):
         Non-metakernel code handler. Need to construct all messages.
         """
         if not code.strip():
-            return {"status": "ok", "execution_count": self.execution_count,
-                    "payload": [], "user_expressions": {}}
+            return {
+                "status": "ok",
+                "execution_count": self.execution_count,
+                "payload": [],
+                "user_expressions": {},
+            }
 
         interrupted, output = self._execute_java(code)
 
@@ -158,12 +164,20 @@ class JavaKernel(Kernel):
         exitcode = "|  Error:" in output
 
         if exitcode:
-            return {"status": "error", "execution_count": self.execution_count,
-                    "ename": "", "evalue": output, "traceback": []}
+            return {
+                "status": "error",
+                "execution_count": self.execution_count,
+                "ename": "",
+                "evalue": output,
+                "traceback": [],
+            }
         else:
-            return {"status": "ok", "execution_count": self.execution_count,
-                    "payload": [], "user_expressions": {}}
-
+            return {
+                "status": "ok",
+                "execution_count": self.execution_count,
+                "payload": [],
+                "user_expressions": {},
+            }
 
     def get_completions(self, info):
         """
@@ -182,9 +196,11 @@ class JavaKernel(Kernel):
         """
         token = info["help_obj"]
         matches = []
-        for command, parts, part, text in [("/vars", 3, 1, ""),
-                                           ("/methods", 2, 0, "()"),
-                                           ("/classes", 2, 1, "()")]:
+        for command, parts, part, text in [
+            ("/vars", 3, 1, ""),
+            ("/methods", 2, 0, "()"),
+            ("/classes", 2, 1, "()"),
+        ]:
             interrupt, output = self._execute_java(command)
             for line in output.split("\n"):
                 if len(line) > 1 and line[0] == "|":

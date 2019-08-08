@@ -1,7 +1,7 @@
 from .kernel import JavaKernel
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         from ipykernel.kernelapp import IPKernelApp
     except:
