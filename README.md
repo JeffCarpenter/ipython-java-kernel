@@ -1,5 +1,3 @@
-# 
-
 # IPython Java Kernel
 An IPython kernel for Java 9+.
 
@@ -7,18 +5,14 @@ An IPython kernel for Java 9+.
 This is an experimental ipython kernel. Don't expect this to be production ready.
 
 ## Requirements
-
-Install JDK 9+
-
-This kernel expects two environment variables defined, which can be set in the kernel.json (described below):
+* JDK 9+
+* JAVA_HOME environment variable set to your JVM directory path
 
 ## Installing the kernel
 
-Assuming you have cloned the repo and got all the requirements above setup:
+run `python3 -m javakernel install`
 
-```python3 -m javakernel install --user```
-
-If it worked you should be able to run the kernel:
+If all worked you should be able to run the kernel:
 ```
 [1] String a = "test"
 

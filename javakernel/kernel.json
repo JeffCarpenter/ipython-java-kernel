@@ -1,9 +1,0 @@
-{
- "argv": ["python3", "<PATH_TO_javakernel>",
-          "-f", "{connection_file}"],
- "display_name": "Java",
- "language": "java",
- "env": {
-	 "JAVA_HOME": "/usr/lib/jvm/default/"
-  }
-}
